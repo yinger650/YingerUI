@@ -27,17 +27,17 @@ if (fRequest::isGet()) {
 			} else if (fetch_data_by_key($db, $key)) {
 				throw new fValidationException('The public key has existed.');
 			}
-			$db->query('BEGIN');		
+			//$db->query('BEGIN');		
 			$ssh_key = new SshKey();
 			$ssh_key->setTitle($title);
 			$ssh_key->setSshKey($key);
 			$ssh_key->setUserId(get_current_user_id());
 			$ssh_key->store();
 			//add_pub_key($ssh_key);
-			$db->query('COMMIT');
+			//$db->query('COMMIT');
 			exit(make_response($ssh_key));
 		} catch (fException $e) {
-			$db->query('ROLLBACK');
+			//$db->query('ROLLBACK');
 			exit(return_error($e));
 		}
 	} else if ($action == 'update') {

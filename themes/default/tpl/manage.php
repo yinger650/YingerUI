@@ -19,6 +19,7 @@
 				<img src = "./themes/default/img/spinner.gif" alt="Loading">
 			</div>
 			<div class="page-settings">
+				<div id="edit_box" class="add-form show"></div>
 				<div class="hint-box">
 					<div class="messages" id="warning-text">
 						Hint box.
@@ -41,7 +42,6 @@
 					</ul>
 				</div>
 				<div class="settings-content">
-					<div id="edit_box" class="add-form show"></div>
 					<div class="setting-box">
 						<h3>SSH Keys</h3>
 						

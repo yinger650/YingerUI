@@ -87,6 +87,7 @@ function call_edit_popup(s_id){
 	$("#edit_box").bPopup();
 	$("#close-popup").click(function(){
 		$("#edit_box").bPopup().close();
+		
 	})
 	$(".close.button-top-right").click(function(){
 		$("#edit_box").bPopup().close();
@@ -98,9 +99,11 @@ function call_edit_popup(s_id){
 		data: 'id='+s_id,
 		success: function(data){
 			if (data.success) {
+				$("#edit_box").css("opacity","1");
 				$("input#edit_title").val(decode(data.data.title,'ENT_QUOTES'));
 				$("textarea#edit_key").val(decode(data.data.ssh_key,'ENT_QUOTES'));				
 			} else {
+				$("#edit_box").css("opacity","1");
 				throw_error("Cannot get the keys!");
 			}
 		},
@@ -196,7 +199,7 @@ function throw_error(message) {
 	//	clearTimeout(error_tmp_vanish);
 	//	$("#error-text").fadeTo(300,1);		
 	//})
-	$(".close").click(function() {$(this).parent().fadeOut(100)});
+	$(".close").click(function() {$("#error-text").fadeOut(100)});
 }
 
 function throw_warning(message) {
@@ -214,7 +217,7 @@ function throw_warning(message) {
 		clearTimeout(tmp);
 		$("#warning-text").fadeTo(300,1);		
 	})
-	$(".close").click(function() {$(this).parent().fadeOut(300)});
+	$(".close").click(function() {$("#warning-text").fadeOut(300)});
 }
 $(document).ready(function(){
 //	$(".messages").show();
