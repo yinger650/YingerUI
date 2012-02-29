@@ -42,6 +42,10 @@ function add_key(title,key){
 			if (data.success) {
 				throw_warning("Key is added successfully!")
 				make_table(data.data);
+				$("input#ssh_title").val('');
+				$("textarea#ssh_key").val('');
+				$("#add-form").toggle(100);
+				$("#add_key_action").show();
 			} else {
 				throw_error(data.message);
 			}
@@ -158,25 +162,29 @@ function del_key(s_id){
 	}
 }
 
-function check_form(){
-	
+function check_form(title,key){
+	if (title == "" || key=="") {
+		throw_error("Key is invalid. Ensure you've filled the form correctly.");
+		return false;
+		} else return true;
 }
 
 
-var vanish,tmp_vanish;
+var vanish,tmp_vanish,error_vanish,error_tmp_vanish;
 
 function throw_error(message) {
-	clearTimeout(vanish);
-	clearTimeout(tmp_vanish);
+	clearTimeout(error_vanish);
+	clearTimeout(error_tmp_vanish);
 	$("#error-text").hide();
+	$("#warning-text").hide();
 	$("#error-text").html("");
 	t = message+'<span class="close">close</span>';
 	$("#error-text").html(t);
 	$("#error-text").fadeTo(300,1);
-	var vanish = setTimeout(function(){$("#error-text").fadeTo(1000,0);tmp_vanish=setTimeout('$("#error-text").hide(200)',1300)},2000);
+	var error_vanish = setTimeout(function(){$("#error-text").fadeTo(1000,0);error_tmp_vanish=setTimeout('$("#error-text").hide(200)',1300)},2000);
 	$("#error-text").mouseover(function(){
-		clearTimeout(vanish);
-		clearTimeout(tmp_vanish);
+		clearTimeout(error_vanish);
+		clearTimeout(error_tmp_vanish);
 		$("#error-text").fadeTo(300,1);		
 	})
 	$(".close").click(function() {$(this).parent().fadeOut(300)});
@@ -186,6 +194,7 @@ function throw_warning(message) {
 	clearTimeout(vanish);
 	clearTimeout(tmp_vanish);
 	$("#warning-text").hide();
+	$("#error-text").hide();
 	$("#warning-text").html("");
 	t = message+'<span class="close">close</span>';
 	$("#warning-text").html(t);
@@ -234,12 +243,9 @@ $(document).ready(function(){
 	});
 	//listen add_key_post
 	$("button[type=submit]").click(function(){
-		add_key($("input#ssh_title").val(),$("textarea#ssh_key").val());
-		$("#add-form").toggle(100);
-		$("#add_key_action").show();
-		$("input#ssh_title").val('');
-		$("textarea#ssh_key").val('');
-
+		if (check_form($("input#ssh_title").val(),$("textarea#ssh_key").val())) {
+			add_key($("input#ssh_title").val(),$("textarea#ssh_key").val());
+		}
 	});
 	
 });
