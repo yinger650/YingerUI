@@ -1,3 +1,8 @@
+/*
+ * Author: yinger650 QQ: 6019784 Email:yinger650@gmail.com
+ * Last update: 2012/2/29
+ */
+
 function addListener(s_id){
 	$("li#key_"+s_id+" a[data-method=delete]").click(function(){
 		del_key(s_id);
@@ -62,18 +67,15 @@ function add_key(title,key){
 
 var decode = function (string, quote_style) {
    string = string.toString();
-
    string = string.replace(/&amp;/g,'&');
    string = string.replace(/&lt;/g,'<');
    string = string.replace(/&gt;/g,'>');
-
    if (quote_style == 'ENT_QUOTES') {
        string = string.replace(/&quot;/g,'"');
        string = string.replace(/&#039;/g,"'");
    } else if (quote_style != 'ENT_NOQUOTES') {
        string = string.replace(/&quot;/g,'"');
    }
-
    return string;
 }
 
@@ -86,8 +88,7 @@ function call_edit_popup(s_id){
 	$("#edit_box").html(t);
 	$("#edit_box").bPopup();
 	$("#close-popup").click(function(){
-		$("#edit_box").bPopup().close();
-		
+		$("#edit_box").bPopup().close();	
 	})
 	$(".close.button-top-right").click(function(){
 		$("#edit_box").bPopup().close();
@@ -181,7 +182,6 @@ function check_form(title,key){
 		} else return true;
 }
 
-
 var vanish,tmp_vanish,error_vanish,error_tmp_vanish;
 
 function throw_error(message) {
@@ -193,12 +193,6 @@ function throw_error(message) {
 	t = message+'<span class="close">close</span>';
 	$("#error-text").html(t);
 	$("#error-text").fadeTo(300,1);
-	//var error_vanish = setTimeout(function(){$("#error-text").fadeTo(1000,0);error_tmp_vanish=setTimeout('$("#error-text").hide(200)',1300)},2000);
-	//$("#error-text").mouseover(function(){
-	//	clearTimeout(error_vanish);
-	//	clearTimeout(error_tmp_vanish);
-	//	$("#error-text").fadeTo(300,1);		
-	//})
 	$(".close").click(function() {$("#error-text").fadeOut(100)});
 }
 
@@ -220,8 +214,6 @@ function throw_warning(message) {
 	$(".close").click(function() {$("#warning-text").fadeOut(300)});
 }
 $(document).ready(function(){
-//	$(".messages").show();
-
 	$.ajax({
 		url: "ssh_key.php",
 		type: "GET",
@@ -240,7 +232,6 @@ $(document).ready(function(){
 		},
 		dataType: "json"
 	});
-
 	//listen add_key_button
 	$("#add_key_action").click( function(){
 	$("#add-form").toggle(100);
@@ -259,6 +250,5 @@ $(document).ready(function(){
 			add_key($("input#ssh_title").val(),$("textarea#ssh_key").val());
 		}
 	});
-	
 });
 
