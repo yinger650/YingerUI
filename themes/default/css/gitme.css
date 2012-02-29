@@ -341,7 +341,7 @@ button.classy img,button.classy:disabled img,button.classy.disabled img,a.button
 }
 .add-form {
 	margin:15px 0;
-	padding:4px 5px;
+	padding:0px 5px 5px;
 	background:#f5f5f5;
 	font-size:12px;
 	color:#333;
@@ -371,9 +371,14 @@ button.classy img,button.classy:disabled img,button.classy.disabled img,a.button
 	height:120px;
 }
 .add-form .form-actions {
-	margin-top:5px;
+	margin-top:-10px;
 	text-align:left;
 }
+
+.add-form .form-actions span{
+	margin-left:2px;margin-right:3px;
+}
+
 
 dl.form {
 	margin:15px 0;

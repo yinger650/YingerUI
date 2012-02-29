@@ -32,6 +32,7 @@ function erase_table(s_id){
 }
 
 function add_key(title,key){
+	$(".pjax-loading").fadeIn(300);
 	$.ajax({
 		//post add method
 		url: "ssh_key.php",
@@ -40,6 +41,7 @@ function add_key(title,key){
 		async: true,
 		success: function(data){
 			if (data.success) {
+				$(".pjax-loading").fadeOut(300);
 				throw_warning("Key is added successfully!")
 				make_table(data.data);
 				$("input#ssh_title").val('');
@@ -47,6 +49,7 @@ function add_key(title,key){
 				$("#add-form").toggle(100);
 				$("#add_key_action").show();
 			} else {
+				$(".pjax-loading").fadeOut(300);
 				throw_error(data.message);
 			}
 		},
@@ -79,7 +82,7 @@ function call_edit_popup(s_id){
 	t='<span class="close button-top-right">close</span>';
 	t=t+'<dl class="form"><dt><label>Title</label></dt><dd><input name="edit_title" id="edit_title" type="text" size="30"/></dd></dl>';
 	t=t+'<dl class="form"><dt><label>Key</label></dt><dd><textarea name="edit_key" id="edit_key" rows="20" cols="40"></textarea></dd></dl>';
-	t=t+'<div class="form-actions"><button id="edit-confirm" class="minibutton" type="submit"><span>Confirm</span></button>or<a id="close-popup" href="#">Cancel</a></div>';
+	t=t+'<div class="form-actions"><button id="edit-confirm" class="minibutton" type="submit"><span>Confirm</span></button><span>or</span><a id="close-popup" href="#">Cancel</a></div>';
 	$("#edit_box").html(t);
 	$("#edit_box").bPopup();
 	$("#close-popup").click(function(){
@@ -113,12 +116,14 @@ function edit_key(s_id){
 	$("#edit-confirm").click(function(){
 		title=$("input#edit_title").val();
 		key=$("textarea#edit_key").val();
+		$(".pjax-loading").fadeIn(300);
 		$.ajax({
 			url: "ssh_key.php",
 			type: "POST",
 			data: 'method=update&id=' + s_id + "&title=" + URLencode(base64_encode(title)) + '&key='+ URLencode(base64_encode(key)),
 			async: true,
 			success: function(data) {
+				$(".pjax-loading").fadeOut(300);
 				if (data.success) {
 					t=data.data.title+'<a class="minibutton danger" href="#" data-method="delete"><span>Delete</span></a>';
 					t=t + '<a class="minibutton" href="#" data-method="edit"><span>Edit</span></a>';						
@@ -126,6 +131,7 @@ function edit_key(s_id){
 					addListener(s_id);
 					throw_warning("Updated!");					
 				} else {
+					$(".pjax-loading").fadeOut(300);
 					throw_error(data.message);
 				}
 			},
@@ -141,16 +147,19 @@ function edit_key(s_id){
 function del_key(s_id){
 	var r=confirm("Are you sure to delete?");
 	if (r==true) {
+		$(".pjax-loading").fadeIn(300);
 		$.ajax({
 			url: "ssh_key.php",
 			type: "POST",
 			data: 'method=delete&id=' + s_id,
 			async: true,
 			success: function(data) {
+				$(".pjax-loading").fadeOut(300);
 				if (data.success) {
 					throw_warning('Delete successfully!')
 					erase_table(s_id);
 				} else {
+					$(".pjax-loading").fadeOut(300);
 					throw_error(data.message);
 				}
 			},
@@ -181,13 +190,13 @@ function throw_error(message) {
 	t = message+'<span class="close">close</span>';
 	$("#error-text").html(t);
 	$("#error-text").fadeTo(300,1);
-	var error_vanish = setTimeout(function(){$("#error-text").fadeTo(1000,0);error_tmp_vanish=setTimeout('$("#error-text").hide(200)',1300)},2000);
-	$("#error-text").mouseover(function(){
-		clearTimeout(error_vanish);
-		clearTimeout(error_tmp_vanish);
-		$("#error-text").fadeTo(300,1);		
-	})
-	$(".close").click(function() {$(this).parent().fadeOut(300)});
+	//var error_vanish = setTimeout(function(){$("#error-text").fadeTo(1000,0);error_tmp_vanish=setTimeout('$("#error-text").hide(200)',1300)},2000);
+	//$("#error-text").mouseover(function(){
+	//	clearTimeout(error_vanish);
+	//	clearTimeout(error_tmp_vanish);
+	//	$("#error-text").fadeTo(300,1);		
+	//})
+	$(".close").click(function() {$(this).parent().fadeOut(100)});
 }
 
 function throw_warning(message) {
@@ -236,7 +245,7 @@ $(document).ready(function(){
 	});
 	//listen clear_button
 	$("#cancel_add_key").click( function(){
-		$("#add-form").toggle(100);
+		$("#add-form").toggle();
 		$("#add_key_action").show();
 		$("input#ssh_title").val('');
 		$("textarea#ssh_key").val('');
