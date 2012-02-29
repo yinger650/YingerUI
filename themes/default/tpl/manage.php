@@ -12,9 +12,12 @@
 	<script src="./themes/default/js/git.js" type="text/javascript"></script>
 </head>
 <body>
-	</br></br>
 	<div class="site clearfix">
 		<div class="container">
+			<div id="header"></div>
+			<div class="pjax-loading hidden-first">
+				<img src = "./themes/default/img/spinner.gif" alt="Loading">
+			</div>
 			<div class="page-settings">
 				<div class="hint-box">
 					<div class="messages" id="warning-text">
@@ -38,9 +41,6 @@
 					</ul>
 				</div>
 				<div class="settings-content">
-					<div class="pjax-loading hidden-first">
-						<p>Loading</p>
-					</div>
 					<div id="edit_box" class="add-form show"></div>
 					<div class="setting-box">
 						<h3>SSH Keys</h3>
@@ -64,8 +64,8 @@
 						</dl>
 						<div class="form-actions">
 							<button class="minibutton" type="submit"><span>Add Key</span></button>
-							or
-							<a id="cancel_add_key" href="#">Cancel</a>
+							<span>or</span>
+							<a id="cancel_add_key" href="#"><span>Cancel</span></a>
 						</div>
 					</div>
 					<p>

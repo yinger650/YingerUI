@@ -20,6 +20,12 @@ a:hover {text-decoration:underline;}
 a.action {color:#d00;text-decoration:underline;}
 a.danger {color:#c00;}
 a:active {outline:none;}
+#header{
+	background: url(../img/logo.png) 0 0 no-repeat;
+	width: 95%;
+	height: 70px;
+	margin: 20px;
+}
 .container {width:920px;margin:0 auto;}
 .sidebar {float:left;border-radius:3px;background:#efefef;width:224px;padding:3px;}
 .accordion {	border-radius:1px;background:#fafafb;border:1px solid #d8d8d8;list-style:none;}
