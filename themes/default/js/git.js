@@ -82,8 +82,9 @@ var decode = function (string, quote_style) {
 function call_edit_popup(s_id){
 	var t;
 	t='<span class="close button-top-right">close</span>';
-	t=t+'<dl class="form"><dt><label>Title</label></dt><dd><input name="edit_title" id="edit_title" type="text" size="30"/></dd></dl>';
-	t=t+'<dl class="form"><dt><label>Key</label></dt><dd><textarea name="edit_key" id="edit_key" rows="20" cols="40"></textarea></dd></dl>';
+	t=t+'';
+	t=t+'<dl class="form"><dt><label>Title</label><div id="edit-title-error"style="color:#990000;display:none;">Input invalid.</div></dt><dd><input name="edit_title" id="edit_title" type="text" size="30"/></dd></dl>';
+	t=t+'<dl class="form"><dt><label>Key</label><div id="edit-key-error"style="color:#990000;display:none;">Input invalid.</div></dt><dd><textarea name="edit_key" id="edit_key" rows="20" cols="40"></textarea></dd></dl>';
 	t=t+'<div class="form-actions"><button id="edit-confirm" class="minibutton" type="submit"><span>Confirm</span></button><span>or</span><a id="close-popup" href="#">Cancel</a></div>';
 	$("#edit_box").html(t);
 	$("#edit_box").bPopup();
@@ -118,33 +119,41 @@ function call_edit_popup(s_id){
 function edit_key(s_id){
 	call_edit_popup(s_id);
 	$("#edit-confirm").click(function(){
+		$("#edit-title-error").fadeOut(300);
+		$("#edit-key-error").fadeOut(300);
 		title=$("input#edit_title").val();
 		key=$("textarea#edit_key").val();
-		$(".pjax-loading").fadeIn(300);
-		$.ajax({
-			url: "ssh_key.php",
-			type: "POST",
-			data: 'method=update&id=' + s_id + "&title=" + URLencode(base64_encode(title)) + '&key='+ URLencode(base64_encode(key)),
-			async: true,
-			success: function(data) {
-				$(".pjax-loading").fadeOut(300);
-				if (data.success) {
-					t=data.data.title+'<a class="minibutton danger" href="#" data-method="delete"><span>Delete</span></a>';
-					t=t + '<a class="minibutton" href="#" data-method="edit"><span>Edit</span></a>';						
-					$("li#key_"+s_id).html(t);
-					addListener(s_id);
-					throw_warning("Updated!");					
-				} else {
+		var flag=true;
+		if (title=="") {$("#edit-title-error").fadeIn(300);flag=false;}
+		if (key=="") {$("#edit-key-error").fadeIn(300);flag=false;}
+		if (flag) {
+			$(".pjax-loading").fadeIn(300);
+			$.ajax({
+				url: "ssh_key.php",
+				type: "POST",
+				data: 'method=update&id=' + s_id + "&title=" + URLencode(base64_encode(title)) + '&key='+ URLencode(base64_encode(key)),
+				async: true,
+				success: function(data) {
 					$(".pjax-loading").fadeOut(300);
-					throw_error(data.message);
-				}
-			},
-			error: function(){
-				throw_error('Connection error!');
-			},
-			dataType: "json"			
-		}); //end of ajax
-		$("#edit_box").bPopup().close();
+					if (data.success) {
+						t=data.data.title+'<a class="minibutton danger" href="#" data-method="delete"><span>Delete</span></a>';
+						t=t + '<a class="minibutton" href="#" data-method="edit"><span>Edit</span></a>';						
+						$("li#key_"+s_id).html(t);
+						addListener(s_id);
+						throw_warning("Updated!");					
+					} else {
+						$(".pjax-loading").fadeOut(300);
+						throw_error(data.message);
+					}
+				},
+				error: function(){
+					//$(".pjax-loading").fadeOut(300);			
+					throw_error('Connection error!');
+				},
+				dataType: "json"			
+			}); //end of ajax
+			$("#edit_box").bPopup().close();
+		}
 	});
 }
 

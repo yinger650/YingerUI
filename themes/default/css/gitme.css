@@ -231,6 +231,10 @@ input[type=text]+.minibutton {
     background-image: url("/git/themes/default/img/background-red.gif");
     color: #990000;
 }
+.hint-box .error-messages  p{display:inline;}
+.hint-box .error-messages  ul{display:inline;}
+.hint-box .error-messages  ul li{display:inline;}
+
 button.classy,button.classy:disabled,button.classy.disabled,a.button.classy:disabled,a.button.classy.disabled,button.classy:disabled:hover,button.classy.disabled:disabled:hover,a.button.classy.disabled:hover:disabled,a.button.classy.disabled:hover,a.button.classy,button.classy:disabled:hover,button.classy.disabled:disabled:hover,a.button.classy:disabled:hover,a.button.classy.disabled:disabled:hover,a.button.classy.disabled:hover {
 	display:inline-block;
 	padding:8px 15px;
